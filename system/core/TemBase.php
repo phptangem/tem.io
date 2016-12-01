@@ -26,5 +26,76 @@ define('LIB_PATH', S_ROOT.'lib/');
 //缓存文件路径
 define('CACHE_PATH', S_ROOT.'cache/');
 class TemBase{
+	private static $_app;		//应用程序引用变量
+	private static $_logger;	//本地日志类引用变量
+
+	/**
+     * @var array 核心类路径对应表 
+     */
+	private static $_coreClasses = array(
+		'CApplication' => 'core/CApplication.php',
+		'CWebApplication' => 'core/CWebApplication.php',
+		'CComponent' => 'core/CComponent.php',
+		'CRouter' => 'core/CRouter.php',
+		'CUri' => 'core/CUri.php'
+	);
+
+    /**
+     * 创建对象实例
+     * @param string $classname创建的对象类名称
+     * @param string $config配置文件路径
+     * @return object 新创建的对象实例引用
+     */
+
+	public static function createApplication($classname, $config){
+		return new $classname($config);
+	}
+
+	/**
+     * 创建网页Application类
+     * @param string $config 配置文件路径
+     * @return object Application实例引用
+     */
+
+	public static function createWebApplication($config){
+		return self::createApplication('CWebApplication', $config);
+	}
+	/**
+     * 返回当前应用实例
+     * @return object 当前应用实例
+     */
+	public static function app(){
+		return self::$_app;
+	}
+	/**
+     * 设置当前实例
+     * @param object $app 当前实例引用
+     */
+	public static function setApplication($app){
+		self::$_app = $app;
+	}
+
+	/**
+     * 自动加载类方法
+     * @param string $classname类名
+     */
+
+	public static function autoload($classname){
+		if(isset(self::$_coreClasses[$classname])){
+			require_once SYS_PATH.self::$_coreClasses[$classname];
+		}else{
+			//类文件不存在,日志记录
+		}
+	}
 	
+	/**
+	*错误处理方法，收集所有的错误信息并记录
+	*/
+
+	public static function tem_error_handler($error_level, $error_message, $error_file, $error_line, $error_context){
+		$uri = $_SERVER['REQUEST_URI'];
+		log_message( "error_level:$error_level error_message:$error_message error_file:$error_file error_line:$error_line uri:$uri");
+	}
 }
+//注册类自动加载方法
+spl_autoload_register(array('TemBase','autoload'));
