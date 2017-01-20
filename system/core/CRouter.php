@@ -37,15 +37,15 @@ class CRouter{
 		}else{
 			$controlpath = CONTROL_PATH.$control.'.php';
 		}
-
 		if(! file_exists($controlpath)){
 			show_404();
 			return false;
 		}
-		require $controlpath;
 		$controlname = ucfirst($control).'Controller';
+		require $controlpath;
 		if(class_exists($controlname)){
-			return new $controlname;
+			$controller = new $controlname;
 		}
+		return $controller;
 	}
 }

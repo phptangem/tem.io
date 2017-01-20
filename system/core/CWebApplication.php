@@ -14,10 +14,9 @@ class CWebApplication extends CApplication{
 		$uri = $this->getUri();
 		$router->setUri($uri);
 		$router->parse();
-		echo 1;die;
 		$controller = $router->createController();
 		$method = $uri->uri_method();
-		if(! method_exists($controller, $method)){
+		if(method_exists($controller, $method)){
 			$controller->$method();
 		}else{
 			echo "$controller/$method does not exists!!!";

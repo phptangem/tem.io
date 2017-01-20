@@ -163,4 +163,58 @@ abstract class CApplication{
     	$this->_classes['CUri'] = $curi;
     	return $curi;
     }
+    /**
+     * 返回缓存类
+     */
+    public function getCache($cachetype = null){
+        if(isset($this->_classes['cache']) && empty($cachetype)){
+            return $this->_classes['cache'];
+        }
+        if(isset($this->_classes['cache_redis'])){
+            return $this->_classes['cache_redis'];
+        }
+        if(!empty($cachetype)){
+            $ccache = new CCache($this->cachetype);
+            $this->_classes['cache_redis'] = $ccache;
+        }else{
+            $ccache = new CCache($this->cache);
+            $this->_classes['cache'] = $ccache;
+        }
+
+        return $ccache;
+    }
+    /**
+     * 返回日志类
+     */
+
+    public function getLog(){
+        if(isset($this->_classes['log'])){
+            return $this->_classes['log'];
+        }
+        $clog = new CLog($this->log);
+        $this->_classes['log'] = $clog;
+        return $clog;
+    }
+    /**
+     * 返回CInput输入类
+     */
+    public function getInput(){
+        if(isset($this->_classes['input'])){
+            return $this->_classes['input'];
+        }
+        $cinput = new CInput($this->cookie);
+        $this->_classes['input'] = $cinput;
+        return $cinput;
+    }
+    /**
+     * 返回DB类
+     */
+    public function getDb(){
+        if(isset($this->_classes['db'])){
+            return $this->_classes['db'];
+        }
+        $db = new CDb($this->db);
+        $this->_classes['db'] = $db;
+        return $db;
+    }
 }

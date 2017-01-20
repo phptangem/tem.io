@@ -34,10 +34,14 @@ class TemBase{
      */
 	private static $_coreClasses = array(
 		'CApplication' => 'core/CApplication.php',
+		'CControl' => 'core/CControl.php',
 		'CWebApplication' => 'core/CWebApplication.php',
 		'CComponent' => 'core/CComponent.php',
 		'CRouter' => 'core/CRouter.php',
-		'CUri' => 'core/CUri.php'
+		'CUri' => 'core/CUri.php',
+		'CInput' => 'core/CInput.php',
+		'CCache'=>'cache/CCache.php',
+		'CDb'=>'db/CDb.php'
 	);
 
     /**
