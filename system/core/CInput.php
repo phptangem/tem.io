@@ -48,7 +48,7 @@
  			}
  			return $value;
  		}
- 		if($this->gets === NULL || !isset($this->gets[key]))
+ 		if($this->gets === NULL || !isset($this->gets[$key]))
  			return NULL;
  		$value = $this->gets[$key];
  		if($xx){

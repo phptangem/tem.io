@@ -67,7 +67,7 @@ class redis_driver {
         }
         return $ret;
     }
-       
+
     /**
      * 关闭连接
      *
@@ -227,7 +227,9 @@ class redis_driver {
         // $key => "key1" || array('key1','key2')
         return $this->getRedis()->delete($key);
     }
-       
+    public function hGetAll($key){
+        return $this->getRedis()->hgetAll($key);
+    }   
     /**
      * 值加加操作,类似 ++$i ,如果 key 不存在时自动设置为 0 后进行加加操作
      *
@@ -371,6 +373,16 @@ class redis_driver {
 	public function hMset($name,$arr) {
 		return $this->getRedis()->hMset($name,$arr);
 	}
+    /**
+     * 返回哈希表key中，一个或多个给定域的值。如果给定的域不存在于哈希表，那么返回一个nil值。
+     * 因为不存在的key被当作一个空哈希表来处理，所以对一个不存在的key进行HMGET操作将返回一个只带有nil值的表。
+     * @param unknown $name
+     * @param unknown $fields
+     * @return number
+     */
+    public function hMget($name,$fields){
+        return $this->getRedis()->hMget($name,$fields);
+    }
     /**
      *    get hash opeation
      */

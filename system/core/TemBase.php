@@ -39,6 +39,7 @@ class TemBase{
 		'CComponent' => 'core/CComponent.php',
 		'CRouter' => 'core/CRouter.php',
 		'CUri' => 'core/CUri.php',
+		'CLog' => 'core/CLog.php',
 		'CInput' => 'core/CInput.php',
 		'CCache'=>'cache/CCache.php',
 		'CDb'=>'db/CDb.php'

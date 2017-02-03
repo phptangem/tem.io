@@ -13,7 +13,7 @@
  			$this->_enable = $config['enable'];
  		}
  		if(isset($config['loglevel'])){
- 			$this->_loglevel = $config['log'];
+ 			$this->_loglevel = $config['loglevel'];
  		}
  		$this->_log_path = (empty($config['log_path'])) ? S_ROOT.'logs/' : $config['log_path'];
  	}

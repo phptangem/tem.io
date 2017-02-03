@@ -108,6 +108,14 @@ class CCache {
 	public function hMset($name,$arr){
     	return $this->cacheobj->hMset($name,$arr);
     }
+    /**
+     * 批量取得HASH表中的VALUE。
+     * @param unknown $name $name hash表的名字
+     * @param unknown $arr 字段数组array('field1', 'field2')
+     */
+    public function hMget($name,$arr){
+    	return $this->cacheobj->hMget($name, $arr);
+    }
 	/*
 	哈希表读取
 	*/
@@ -166,7 +174,7 @@ class CCache {
 	 * @param unknown $args
 	 */
 	function __call($function_name, $args)
-	{//log_message(var_export($args,true));
+	{
 		if(method_exists($this->cacheobj,$function_name)==TRUE){
 			return call_user_func_array(array($this->cacheobj, $function_name), $args);
 		}else{

@@ -14,7 +14,7 @@ function show_404(){
 	include $viewpath;
 }
 function log_message($msg, $level = 'error', $php_error = false){
-	Ebh::app()->getLog()->log($msg, $level, $php_error);
+	Tem::app()->getLog()->log($msg, $level, $php_error);
 }
 //数据安全过滤
 function safefilter($datas){
@@ -107,4 +107,29 @@ function h($text, $tags = null) {
     //抹去所有外链接
     $text = replace_Links($text);
     return $text;
+}
+function do_post($url, $data , $retJson = true ,$setHeader = false){
+    $auth = Tem::app()->getInput()->cookie('auth');
+    $uri = Tem::app()->getUri();
+    $domain = $uri->uri_domain();
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    if ($setHeader) {
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($data))
+        );
+    }
+    curl_setopt($ch, CURLOPT_USERAGENT,$_SERVER['HTTP_USER_AGENT']);
+    curl_setopt($ch, CURLOPT_POST, TRUE); 
+    curl_setopt($ch, CURLOPT_HEADER, FALSE);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $data); 
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_COOKIE, 'ebh_auth='.urlencode($auth).';ebh_domain='.$domain);
+    $ret = curl_exec($ch);
+    curl_close($ch);
+    if($retJson == false){
+        $ret = json_decode($ret);
+    }
+    return $ret;
 }

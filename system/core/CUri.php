@@ -236,4 +236,10 @@ class CUri{
     public function uri_query_string(){
         return $this->query_string;
     }
+     /**
+     * 返回解析后的域名信息
+     */
+    function uri_domain() {
+        return $this->domain;
+    }
 }

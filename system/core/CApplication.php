@@ -207,14 +207,32 @@ abstract class CApplication{
         return $cinput;
     }
     /**
-     * 返回DB类
+     * 加载类库
+     * @param string $libname
+     *
+     * jw 修改加载lib文件添加path用于加载lib目录中指定路径的类文件
+     * 如果需要加载lib下Live目录下的文件则使用 Ebh::app()->lib('Sata','Live');
+     *
+     * 实际加载路径为 lib/Live/Sata.php
      */
-    public function getDb(){
-        if(isset($this->_classes['db'])){
-            return $this->_classes['db'];
+    public function lib($libname, $path = ''){
+        if(!isset($this->_classes[$libname])){
+            if($path != ''){
+                $path = $path.'/'.$libname;
+            }else{
+                $path = $libname;
+            }
+            $libpath = LIB_PATH . $path.'.php';
+            if(!file_exists($libpath)){
+
+            }
+            require ($libpath);
+            if(!class_exists($libname)){
+                echo "$libname class not exists";
+            }
+            $this->_classes[$libname] = new $libname;
+            return $this->_classes[$libname];
         }
-        $db = new CDb($this->db);
-        $this->_classes['db'] = $db;
-        return $db;
+        return $this->_classes[$libname];
     }
 }
